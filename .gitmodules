@@ -19,3 +19,6 @@
 [submodule "hw/core/abondance"]
 	path = hw/core/abondance
 	url = git@gitlab.com:herd-ware/hw/core-abondance.git
+[submodule "tools"]
+	path = tools
+	url = git@gitlab.com:herd-ware/tools.git

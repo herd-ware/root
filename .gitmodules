@@ -1,24 +1,24 @@
 [submodule "hw/common"]
 	path = hw/common
-	url = git@gitlab.com:herd-ware/hw/common.git
+	url = git@github.com:herd-ware/hw-common.git
 [submodule "hw/core/aubrac"]
 	path = hw/core/aubrac
-	url = git@gitlab.com:herd-ware/hw/core-aubrac.git
+	url = git@github.com:herd-ware/hw-core-aubrac.git
 [submodule "hw/mem/hay"]
 	path = hw/mem/hay
-	url = git@gitlab.com:herd-ware/hw/mem-hay.git
+	url = git@github.com:herd-ware/hw-mem-hay.git
 [submodule "hw/io"]
 	path = hw/io
-	url = git@gitlab.com:herd-ware/hw/io.git
+	url = git@github.com:herd-ware/hw-io.git
 [submodule "hw/pltf/cheese"]
 	path = hw/pltf/cheese
-	url = git@gitlab.com:herd-ware/hw/pltf-cheese.git
+	url = git@github.com:herd-ware/hw-pltf-cheese.git
 [submodule "sw/isa-tests"]
 	path = sw/isa-tests
-	url = git@gitlab.com:herd-ware/sw/isa-tests.git
+	url = git@github.com:herd-ware/sw-isa-tests.git
 [submodule "hw/core/abondance"]
 	path = hw/core/abondance
-	url = git@gitlab.com:herd-ware/hw/core-abondance.git
+	url = git@github.com:herd-ware/hw-core-abondance.git
 [submodule "tools"]
 	path = tools
-	url = git@gitlab.com:herd-ware/tools.git
+	url = git@github.com:herd-ware/tools.git

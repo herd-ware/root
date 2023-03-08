@@ -29,6 +29,11 @@ cheese-sim: cheese-dir
 	./tools/isa-tests.sh ${CHEESE_CFG} ${PRJ_DIR}
 
 cheese-sim-all:
+	make cheese-sim ISA_CFG=P32 HW_CFG=AU1V000
+	make cheese-sim ISA_CFG=P32 HW_CFG=AU1V020
+	make cheese-sim ISA_CFG=P32 HW_CFG=AB1V000
+	make cheese-sim ISA_CFG=P32 HW_CFG=AB1V020
+
 	make cheese-sim ISA_CFG=C32 HW_CFG=AU1V000
 	make cheese-sim ISA_CFG=C32 HW_CFG=AU1V020
 	make cheese-sim ISA_CFG=C32 HW_CFG=AU1V021

@@ -22,3 +22,9 @@
 [submodule "tools"]
 	path = tools
 	url = git@gitlab.com:herd-ware/tools.git
+[submodule "sw/bare"]
+	path = sw/bare
+	url = git@gitlab.com:herd-ware/sw/bare.git
+[submodule "sw/lib-herd"]
+	path = sw/lib-herd
+	url = git@gitlab.com:herd-ware/sw/lib-herd.git

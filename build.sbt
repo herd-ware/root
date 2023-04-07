@@ -1,10 +1,10 @@
 /*
- * File: build.sbt                                                             *
+ * File: build.sbt
  * Created Date: 2023-02-25 01:11:34 pm                                        *
  * Author: Mathieu Escouteloup                                                 *
  * -----                                                                       *
- * Last Modified: 2023-02-26 09:45:03 am                                       *
- * Modified By: Mathieu Escouteloup                                            *
+ * Last Modified: 2023-04-05 08:51:49 am
+ * Modified By: Mathieu Escouteloup
  * -----                                                                       *
  * License: See LICENSE.md                                                     *
  * Copyright (c) 2023 HerdWare                                                 *
@@ -75,8 +75,9 @@ lazy val draft = (project in file("hw/draft"))
     addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % "3.4.3" cross CrossVersion.full),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
   )
-  .dependsOn( common  % "test->test;compile->compile")           
-  .aggregate( common)
+  .dependsOn( common  % "test->test;compile->compile",
+              aubrac  % "test->test;compile->compile")           
+  .aggregate( common, aubrac)
 
 lazy val aubrac = (project in file("hw/core/aubrac"))
   .settings(
@@ -124,9 +125,8 @@ lazy val io = (project in file("hw/io"))
     addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % "3.4.3" cross CrossVersion.full),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
   )
-  .dependsOn( common  % "test->test;compile->compile",
-              draft  % "test->test;compile->compile")           
-  .aggregate( common, draft)
+  .dependsOn( common  % "test->test;compile->compile")           
+  .aggregate( common)
 
 lazy val cheese = (project in file("hw/pltf/cheese"))
   .settings(

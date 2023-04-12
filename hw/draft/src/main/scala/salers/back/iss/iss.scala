@@ -1,10 +1,10 @@
 /*
- * File: iss.scala
+ * File: iss.scala                                                             *
  * Created Date: 2023-03-08 01:51:25 pm                                        *
  * Author: Mathieu Escouteloup                                                 *
  * -----                                                                       *
- * Last Modified: 2023-04-06 08:55:50 pm
- * Modified By: Mathieu Escouteloup
+ * Last Modified: 2023-04-11 05:50:33 pm                                       *
+ * Modified By: Mathieu Escouteloup                                            *
  * -----                                                                       *
  * License: See LICENSE.md                                                     *
  * Copyright (c) 2023 HerdWare                                                 *
@@ -36,16 +36,15 @@ class IssStage(p: BackParams) extends Module {
 
     val b_in = Vec(p.nBackPort, Flipped(new GenRVIO(p, new IssCtrlBus(p), UInt(0.W))))
 
+    val b_rs = Vec(p.nGprReadLog, Flipped(new GprReadIO(p)))
+
     val o_br_next = Output(Vec(p.nHart, new BranchBus(p.nAddrBit)))
     val i_end = Input(Vec(p.nHart, Bool()))
     val i_pend = Input(Vec(p.nHart, Bool()))
-
-    val b_rs = Vec(p.nGprReadLog, Flipped(new GprReadIO(p)))
-
-    val o_hpc_srcdep = Output(Vec(p.nHart, UInt(8.W)))
-
     val i_free = Input(new FreeBus(p))
     val o_stage = Output(Vec(p.nBackPort, new StageBus(p.nHart, p.nAddrBit, p.nInstrBit)))
+
+    val o_hpc_srcdep = Output(Vec(p.nHart, Vec(p.nBackPort, Bool())))
 
     val b_out = Vec(p.nBackPort, new GenRVIO(p, new Ex0CtrlBus(p), new DataBus(p.nDataBit)))
   })
@@ -173,7 +172,7 @@ class IssStage(p: BackParams) extends Module {
   //             DATA
   // ******************************
   // ------------------------------
-  //            GPR READ
+  //           GPR READ
   // ------------------------------
   for (bp <- 0 until p.nBackPort) {
     io.b_rs(bp * 2).valid := w_valid(bp) & io.b_in(bp).ctrl.get.data.s1_is_reg
@@ -286,13 +285,9 @@ class IssStage(p: BackParams) extends Module {
   //              HPC
   // ******************************
   for (h <- 0 until p.nHart) {
-    val w_hpc_srcdep = Wire(Vec(p.nBackPort, Bool()))
-
     for (bp <- 0 until p.nBackPort) {
-      w_hpc_srcdep(bp) := io.b_in(bp).valid & w_wait_rs(bp) & (h.U === io.b_in(bp).ctrl.get.info.hart)
+      io.o_hpc_srcdep(h)(bp) := io.b_in(bp).valid & w_wait_rs(bp) & (h.U === io.b_in(bp).ctrl.get.info.hart)
     }
-
-    io.o_hpc_srcdep(h) := PopCount(w_hpc_srcdep.asUInt)
   }  
 
   // ******************************
@@ -356,6 +351,12 @@ class IssStage(p: BackParams) extends Module {
     m_out(bp).io.b_in.ctrl.get.trap := io.b_in(bp).ctrl.get.trap
 
     m_out(bp).io.b_in.ctrl.get.int := io.b_in(bp).ctrl.get.int
+    if (p.useExtB) {
+      switch (io.b_in(bp).ctrl.get.int.unit) {
+        is (INTUNIT.BALU)   {m_out(bp).io.b_in.ctrl.get.int.unit := INTUNIT.ALU}
+        is (INTUNIT.CLMUL)  {m_out(bp).io.b_in.ctrl.get.int.unit := INTUNIT.MULDIV}
+      }
+    }
     m_out(bp).io.b_in.ctrl.get.lsu := io.b_in(bp).ctrl.get.lsu
     m_out(bp).io.b_in.ctrl.get.csr := io.b_in(bp).ctrl.get.csr
     m_out(bp).io.b_in.ctrl.get.gpr := io.b_in(bp).ctrl.get.gpr

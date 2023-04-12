@@ -3,7 +3,7 @@
  * Created Date: 2023-03-08 01:51:25 pm                                        *
  * Author: Mathieu Escouteloup                                                 *
  * -----                                                                       *
- * Last Modified: 2023-03-08 04:20:02 pm                                       *
+ * Last Modified: 2023-04-12 09:15:28 am                                       *
  * Modified By: Mathieu Escouteloup                                            *
  * -----                                                                       *
  * License: See LICENSE.md                                                     *
@@ -25,7 +25,9 @@ object DispatcherConfigBase extends DispatcherConfig (
   nBackPort = 2,
 
   nAlu = 2,
-  nMulDiv = 1
+  nMulDiv = 1,
+  nBAlu = 0,
+  nClMul = 0
 ) 
 
 object BackConfigBase extends BackConfig (
@@ -44,8 +46,9 @@ object BackConfigBase extends BackConfig (
   nExStage = 1,
   nAlu = 2,
   nMulDiv = 1,
+  isBAlu = Array(false, false),
+  isClMul = Array(false),
   useExtA = false,
-  useExtB = false,
   useExtZifencei = true,
   useExtZicbo = true,
   useBranchReg = true,

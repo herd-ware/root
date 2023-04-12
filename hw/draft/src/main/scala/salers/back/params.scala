@@ -3,7 +3,7 @@
  * Created Date: 2023-03-08 01:51:25 pm                                        *
  * Author: Mathieu Escouteloup                                                 *
  * -----                                                                       *
- * Last Modified: 2023-03-09 12:10:39 pm                                       *
+ * Last Modified: 2023-04-12 09:15:22 am                                       *
  * Modified By: Mathieu Escouteloup                                            *
  * -----                                                                       *
  * License: See LICENSE.md                                                     *
@@ -33,6 +33,8 @@ trait DispatcherParams {
   def nAlu: Int
   def nBru: Int = nHart
   def nMulDiv: Int
+  def nBAlu: Int
+  def nClMul: Int
 }
 
 case class DispatcherConfig (
@@ -42,7 +44,9 @@ case class DispatcherConfig (
   nBackPort: Int,
 
   nAlu: Int,
-  nMulDiv: Int
+  nMulDiv: Int,
+  nBAlu: Int,
+  nClMul: Int
 ) extends DispatcherParams
 
 trait BackParams extends GprParams 
@@ -65,9 +69,29 @@ trait BackParams extends GprParams
   def nExStage: Int 
   def nAlu: Int
   def nMulDiv: Int
+  def isBAlu: Array[Boolean]
+  def isClMul: Array[Boolean]
+  def nBAlu: Int = {
+    var n: Int = 0
+    for (a <- 0 until isBAlu.size) {
+      if (isBAlu(a) && (a < nAlu)) {
+        n = n + 1
+      }
+    }
+    return n
+  }
+  def nClMul: Int = {
+    var n: Int = 0
+    for (m <- 0 until nMulDiv) {
+      if (isClMul(m) && (m < nMulDiv)) {
+        n = n + 1
+      }
+    }
+    return n
+  }
   def useExtM: Boolean = (nMulDiv > 0)
   def useExtA: Boolean
-  def useExtB: Boolean
+  def useExtB: Boolean = (nBAlu > 0) && ((nClMul > 0) || !useExtM)
   def useExtZifencei: Boolean
   def useExtZicbo: Boolean
   def useCbo: Boolean = useExtZifencei || useExtZicbo
@@ -133,8 +157,9 @@ case class BackConfig (
   nExStage: Int,
   nAlu: Int,
   nMulDiv: Int,
+  isBAlu: Array[Boolean],
+  isClMul: Array[Boolean],
   useExtA: Boolean,
-  useExtB: Boolean,
   useExtZifencei: Boolean,
   useExtZicbo: Boolean,
   useBranchReg: Boolean,

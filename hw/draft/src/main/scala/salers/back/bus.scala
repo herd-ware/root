@@ -3,7 +3,7 @@
  * Created Date: 2023-03-08 01:51:25 pm                                        *
  * Author: Mathieu Escouteloup                                                 *
  * -----                                                                       *
- * Last Modified: 2023-03-09 12:13:16 pm                                       *
+ * Last Modified: 2023-04-11 06:38:16 pm                                       *
  * Modified By: Mathieu Escouteloup                                            *
  * -----                                                                       *
  * License: See LICENSE.md                                                     *
@@ -43,6 +43,8 @@ class FreeBus(p: DispatcherParams) extends Bundle {
   val alu = Input(Vec(p.nAlu, Bool()))
   val bru = Input(Vec(p.nBru, Bool()))
   val muldiv = if (p.nMulDiv > 0) Some(Input(Vec(p.nMulDiv, Bool()))) else None
+  val balu = if (p.nBAlu > 0) Some(Input(Vec(p.nAlu, Bool()))) else None
+  val clmul = if (p.nClMul > 0) Some(Input(Vec(p.nMulDiv, Bool()))) else None
 }
 
 // ******************************
@@ -155,7 +157,9 @@ class LsuReqCtrlBus(p: BackParams) extends Bundle {
   val addr = UInt(p.nAddrBit.W)
   val trap = new TrapBus(p.nAddrBit, p.nDataBit)
 
+  def ldo: Bool = (uop === LSUUOP.R) | (uop === LSUUOP.LR)
   def ld: Bool = (uop === LSUUOP.R) | (uop === LSUUOP.LR) | (uop === LSUUOP.SC) | (uop === LSUUOP.AMO)
+  def lr: Bool = (uop === LSUUOP.LR)
   def st: Bool = (uop === LSUUOP.W) | (uop === LSUUOP.SC) | (uop === LSUUOP.AMO)
   def sc: Bool = (uop === LSUUOP.SC)
   def a: Bool = (uop === LSUUOP.AMO) | (uop === LSUUOP.SC)
@@ -170,7 +174,9 @@ class LsuMemCtrlBus(p: BackParams) extends Bundle {
   val sign = UInt(LSUSIGN.NBIT.W)
   val trap = new TrapBus(p.nAddrBit, p.nDataBit)
 
+  def ldo: Bool = (uop === LSUUOP.R) | (uop === LSUUOP.LR)
   def ld: Bool = (uop === LSUUOP.R) | (uop === LSUUOP.LR) | (uop === LSUUOP.SC) | (uop === LSUUOP.AMO)
+  def lr: Bool = (uop === LSUUOP.LR)
   def st: Bool = (uop === LSUUOP.W) | (uop === LSUUOP.SC) | (uop === LSUUOP.AMO)
   def sc: Bool = (uop === LSUUOP.SC)
   def a: Bool = (uop === LSUUOP.AMO) | (uop === LSUUOP.SC)

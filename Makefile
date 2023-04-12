@@ -44,6 +44,7 @@ cheese-test: cheese-sim
 cheese-all-test:
 	make cheese-test ISA_CFG=P32 HW_CFG=AU1V000
 	make cheese-test ISA_CFG=P32 HW_CFG=AU1V020
+	make cheese-test ISA_CFG=P32 HW_CFG=SA1V000
 	make cheese-test ISA_CFG=P32 HW_CFG=AB1V000
 	make cheese-test ISA_CFG=P32 HW_CFG=AB1V020
 

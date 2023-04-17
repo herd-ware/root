@@ -12,6 +12,10 @@ cd ${PRJ_DIR}/hw/core/aubrac
 git checkout main
 git pull origin main
 
+cd ${PRJ_DIR}/hw/core/salers
+git checkout main
+git pull origin main
+
 cd ${PRJ_DIR}/hw/core/abondance
 git checkout main
 git pull origin main
@@ -29,6 +33,14 @@ git checkout main
 git pull origin main
 
 cd ${PRJ_DIR}/sw/isa-tests
+git checkout main
+git pull origin main
+
+cd ${PRJ_DIR}/sw/lib-herd
+git checkout main
+git pull origin main
+
+cd ${PRJ_DIR}/sw/bare
 git checkout main
 git pull origin main
 

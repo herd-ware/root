@@ -1,6 +1,6 @@
 PRJ_DIR = `pwd`
 ISA_CFG = C32
-HW_CFG = O1V000
+HW_CFG = AU1V000
 PLTF_CFG = ${ISA_CFG}${HW_CFG}
 CHEESE_CFG = HERD_${ISA_CFG}_CH${HW_CFG}
 FPGA_BOARD = arty-a7-35t
@@ -44,6 +44,7 @@ cheese-test: cheese-sim
 cheese-all-test:
 	make cheese-test ISA_CFG=P32 HW_CFG=AU1V000
 	make cheese-test ISA_CFG=P32 HW_CFG=AU1V020
+	make cheese-test ISA_CFG=P32 HW_CFG=SA1V000
 	make cheese-test ISA_CFG=P32 HW_CFG=AB1V000
 	make cheese-test ISA_CFG=P32 HW_CFG=AB1V020
 

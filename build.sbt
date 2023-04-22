@@ -3,7 +3,7 @@
  * Created Date: 2023-02-25 01:11:34 pm                                        *
  * Author: Mathieu Escouteloup                                                 *
  * -----                                                                       *
- * Last Modified: 2023-02-26 09:45:03 am                                       *
+ * Last Modified: 2023-04-12 11:01:30 am                                       *
  * Modified By: Mathieu Escouteloup                                            *
  * -----                                                                       *
  * License: See LICENSE.md                                                     *
@@ -51,12 +51,13 @@ lazy val main = (project in file("."))
   .dependsOn( common    % "test->test;compile->compile",
               draft     % "test->test;compile->compile",
               aubrac    % "test->test;compile->compile",
+              salers    % "test->test;compile->compile",
               abondance % "test->test;compile->compile",
               hay       % "test->test;compile->compile",
               io        % "test->test;compile->compile",
               cheese    % "test->test;compile->compile"
   )           
-  .aggregate( common, draft, aubrac, abondance, hay, io, cheese)
+  .aggregate( common, draft, aubrac, salers, abondance, hay, io, cheese)
 
 lazy val common = (project in file("hw/common"))
   .settings(
@@ -75,8 +76,9 @@ lazy val draft = (project in file("hw/draft"))
     addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % "3.4.3" cross CrossVersion.full),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
   )
-  .dependsOn( common  % "test->test;compile->compile")           
-  .aggregate( common)
+  .dependsOn( common  % "test->test;compile->compile",
+              aubrac  % "test->test;compile->compile")           
+  .aggregate( common, aubrac)
 
 lazy val aubrac = (project in file("hw/core/aubrac"))
   .settings(
@@ -90,6 +92,20 @@ lazy val aubrac = (project in file("hw/core/aubrac"))
               hay     % "test->test;compile->compile",
               io      % "test->test;compile->compile")           
   .aggregate( common, hay, io)
+
+lazy val salers = (project in file("hw/core/salers"))
+  .settings(
+    name := "salers",
+    libraryDependencies ++= libDep,
+    scalacOptions ++= scalacOpt,
+    addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % "3.4.3" cross CrossVersion.full),
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
+  )
+  .dependsOn( common  % "test->test;compile->compile",
+              aubrac  % "test->test;compile->compile",
+              hay     % "test->test;compile->compile",
+              io      % "test->test;compile->compile")           
+  .aggregate( common, aubrac, hay, io) 
 
 lazy val abondance = (project in file("hw/core/abondance"))
   .settings(
@@ -124,9 +140,8 @@ lazy val io = (project in file("hw/io"))
     addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % "3.4.3" cross CrossVersion.full),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
   )
-  .dependsOn( common  % "test->test;compile->compile",
-              draft  % "test->test;compile->compile")           
-  .aggregate( common, draft)
+  .dependsOn( common  % "test->test;compile->compile")           
+  .aggregate( common)
 
 lazy val cheese = (project in file("hw/pltf/cheese"))
   .settings(
@@ -137,8 +152,8 @@ lazy val cheese = (project in file("hw/pltf/cheese"))
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
   )
   .dependsOn( common    % "test->test;compile->compile",
-              draft     % "test->test;compile->compile",
               aubrac    % "test->test;compile->compile",
+              salers    % "test->test;compile->compile",
               abondance % "test->test;compile->compile",
               io        % "test->test;compile->compile")           
-  .aggregate( common, draft, aubrac, abondance, io)
+  .aggregate( common, aubrac, salers, abondance, io)

@@ -24,10 +24,10 @@
 	url = git@github.com:herd-ware/tools.git
 [submodule "hw/core/salers"]
 	path = hw/core/salers
-	url = git@gitlab.com:herd-ware/hw/core-salers.git
+	url = git@github.com:herd-ware/hw-core-salers.git
 [submodule "sw/lib-herd"]
 	path = sw/lib-herd
-	url = git@gitlab.com:herd-ware/sw/lib-herd.git
+	url = git@github.com:herd-ware/sw-lib-herd.git
 [submodule "sw/bare"]
 	path = sw/bare
-	url = git@gitlab.com:herd-ware/sw/bare.git
+	url = git@github.com:herd-ware/sw-bare.git
